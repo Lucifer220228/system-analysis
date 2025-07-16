@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>書籤（收藏）</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 首頁icon僅放置一個 -->
+  <a href="index.html" title="回首頁" style="position: absolute; top: 20px; right: 24px; z-index: 10;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#2563eb" viewBox="0 0 16 16">
+      <path d="M8 3.293l-6 6V14a1 1 0 0 0 1 1h3.5a.5.5 0 0 0 .5-.5V11h2v3.5a.5.5 0 0 0 .5.5H13a1 1 0 0 0 1-1V9.293l-6-6z"/>
+      <path d="M7.293 2.293a1 1 0 0 1 1.414 0l6 6A1 1 0 0 1 14.293 9H13v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9H1.707a1 1 0 0 1-.707-1.707l6-6z"/>
+    </svg>
+  </a>
+  <h2>書籤（收藏）</h2>
+  <ul id="favorite-list"></ul>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const favoriteList = document.getElementById('favorite-list');
+      function renderFavorites() {
+        favoriteList.innerHTML = '';
+        let favs = JSON.parse(localStorage.getItem('favorites') || '[]');
+        if (!favs.length) {
+          favoriteList.innerHTML = '<li class="list-group-item">尚無收藏</li>';
+          return;
+        }
+        favs.forEach(book => {
+          const li = document.createElement('li');
+          li.className = 'list-group-item d-flex align-items-center';
+          li.innerHTML = `
+            <img src="${book.image}" alt="${book.title}" style="height:40px;margin-right:1em;">
+            <div class="flex-grow-1">
+              <strong>${book.title}</strong> <span class="text-muted">${book.author}</span>
+              <span class="badge bg-secondary ms-2">${book.category}</span>
+            </div>
+            <button class="btn btn-sm btn-danger ms-auto remove-fav">移除</button>
+          `;
+          li.querySelector('.remove-fav').onclick = function() {
+            favs = favs.filter(f => f.id !== book.id);
+            localStorage.setItem('favorites', JSON.stringify(favs));
+            renderFavorites();
+          };
+          favoriteList.appendChild(li);
+        });
+      }
+      renderFavorites();
+    });
+  </script>
+  <button id="export-favorite-btn">匯出收藏清單</button>
+  <div id="export-favorite-result"></div>
+  <script src="main.js"></script>
+</body>
+</html>

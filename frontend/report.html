@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>留言審查 / 檢舉</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>留言審查 / 檢舉</h2>
+  <form id="report-form">
+    <input type="text" id="report-comment-id" placeholder="留言編號 (從 1 開始)" required>
+    <input type="text" id="report-reason" placeholder="檢舉原因" required>
+    <button type="submit">檢舉</button>
+  </form>
+  <div id="report-result"></div>
+  <script src="main.js"></script>
+</body>
+</html>
